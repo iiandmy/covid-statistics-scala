@@ -1,7 +1,7 @@
 package by.innowise.covidstatistics.server
 
 import by.innowise.covidstatistics.route.CovidstatisticsRoutes
-import by.innowise.covidstatistics.service.{HelloWorld, Jokes}
+import by.innowise.covidstatistics.service.CovidService
 import cats.effect.Async
 import cats.syntax.all.*
 import com.comcast.ip4s.*
@@ -15,14 +15,14 @@ object CovidstatisticsServer:
   def run[F[_]: Async]: F[Nothing] = {
     for {
       client <- EmberClientBuilder.default[F].build
-      helloWorldAlg = HelloWorld.impl[F]
+      covidService = CovidService.impl[F](client)
 
       // Combine Service Routes into an HttpApp.
       // Can also be done via a Router if you
       // want to extract a segments not checked
       // in the underlying routes.
       httpApp = (
-        CovidstatisticsRoutes.helloWorldRoutes[F](helloWorldAlg)
+        CovidstatisticsRoutes.covidServiceRoutes[F](covidService)
       ).orNotFound
 
       // With Middlewares in place
