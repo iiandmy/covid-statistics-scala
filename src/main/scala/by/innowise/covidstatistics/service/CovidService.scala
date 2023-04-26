@@ -43,7 +43,7 @@ object CovidService:
     }
 
     private def getMinCases(cases: List[DayStatistic]): DayStatistic = {
-      cases.minByOption(d => d.cases).getOrElse(throw new RuntimeException())
+      cases.minByOption(dayStatistic => dayStatistic.cases).getOrElse(throw new RuntimeException())
     }
 
     private def getMaxCases(cases: List[DayStatistic]): DayStatistic = {

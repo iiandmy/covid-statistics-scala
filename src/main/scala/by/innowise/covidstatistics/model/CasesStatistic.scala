@@ -2,7 +2,7 @@ package by.innowise.covidstatistics.model
 
 import io.circe.Encoder
 import org.http4s.EntityEncoder
-import org.http4s.circe.{jsonEncoderOf}
+import org.http4s.circe.jsonEncoderOf
 
 case class CasesStatistic(
   country: String, 
@@ -14,4 +14,5 @@ case class CasesStatistic(
 
 object CasesStatistic:
   given[F[_]]: EntityEncoder[F, CasesStatistic] = jsonEncoderOf
+  
   given Encoder[CasesStatistic] = Encoder.AsObject.derived[CasesStatistic]

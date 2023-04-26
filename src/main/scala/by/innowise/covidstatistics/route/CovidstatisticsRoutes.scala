@@ -1,9 +1,9 @@
 package by.innowise.covidstatistics.route
 
-import by.innowise.covidstatistics.service.{CovidService, HelloWorld}
+import by.innowise.covidstatistics.service.CovidService
 import cats.effect.Sync
 import cats.implicits.*
-import org.http4s.{HttpRoutes}
+import org.http4s.HttpRoutes
 import org.http4s.dsl.Http4sDsl
 import org.http4s.dsl.impl.QueryParamDecoderMatcher
 
@@ -22,12 +22,12 @@ object CovidstatisticsRoutes:
       case GET -> Root / "countries" =>
         for {
           countries <- CovidService.getCountryList
-          resp <- Ok(countries)
-        } yield resp
+          response <- Ok(countries)
+        } yield response
       case GET -> Root / "country" / country / "minmax" :?
         FromDateParam(from) +& ToDateParam(to) =>
         for {
           minMaxStatistic <- CovidService.getMinMaxStatistic(country, from, to)
-          resp <- Ok(minMaxStatistic)
-        } yield resp
+          response <- Ok(minMaxStatistic)
+        } yield response
     }
